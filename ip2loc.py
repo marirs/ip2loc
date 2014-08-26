@@ -11,7 +11,6 @@ Requirements:
 
 """
 from optparse import OptionParser
-from StringIO import StringIO
 import os, sys, socket, logging, csv
 import requests, json
 
@@ -51,27 +50,27 @@ def ip2loc(ip_list=[]):
         response = requests.get(api_url % ip, headers=headers)
         json_data = json.loads(response.text)
         try: country_code2= json.dumps(json_data["country_code"]).replace('"',"").strip()
-        except KeyError: country_code2= ''
+        except KeyError: country_code2= 'N/A'
         try: country_code3= json.dumps(json_data["country_code3"]).replace('"',"").strip()
-        except KeyError: country= ''
+        except KeyError: country_code3= 'N/A'
         try: country= json.dumps(json_data["country"]).replace('"',"").strip()
-        except KeyError: country= ''
+        except KeyError: country= 'N/A'
         try: city= json.dumps(json_data["city"]).replace('"',"").strip()
-        except KeyError: city= ''
+        except KeyError: city= 'N/A'
         try: region= json.dumps(json_data["region"]).replace('"',"").strip()
-        except KeyError: region= ''
+        except KeyError: region= 'N/A'
         try: region_code= json.dumps(json_data["region_code"]).replace('"',"").strip()
-        except KeyError: region_code= ""
+        except KeyError: region_code= 'N/A'
         try: lat= json.dumps(json_data["latitude"]).replace('"',"").strip()
-        except KeyError: lat= ""
+        except KeyError: lat= 'N/A'
         try: lng= json.dumps(json_data["longitude"]).replace('"',"").strip()
-        except KeyError: lng= ""
+        except KeyError: lng= 'N/A'
         try: zip= json.dumps(json_data["postal_code"]).replace('"',"").strip()
-        except KeyError: zip= ""
+        except KeyError: zip= 'N/A'
         try: isp= json.dumps(json_data["isp"]).replace('"',"").strip()
-        except KeyError: isp= ""
+        except KeyError: isp= 'N/A'
         try: asn= json.dumps(json_data["asn"]).replace('"',"").strip()
-        except KeyError: asn= ""
+        except KeyError: asn= 'N/A'
 
         t = [ip,lat,lng,country_code2,country_code3,country,region_code,region,city,zip,asn,isp]
         ip2loc_list.append(t)
@@ -128,7 +127,6 @@ def main():
     processed += ip2loc(all_ips)
 
     #print processed
-
     [pCSV.writerow(row) for row in processed]
 
 if __name__ == '__main__':
